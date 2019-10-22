@@ -57,5 +57,16 @@ def receive():
     message = request.args.get("message")
     return render_template('receive.html', name=name, message=message)
 
+@app.route('/vonvon')
+def vonvon():
+    return render_template('vonvon.html')
+
+@app.route('/result')
+def result():
+    name = request.args.get('name')
+    features = ['돈복', '순수함', '사랑스러움', '일복', '명예']
+    chosen = random.sample(features, 3)
+    return render_template('result.html', name=name, chosen=chosen)
+
 if __name__ == "__main__":
     app.run(debug=True)
