@@ -28,4 +28,6 @@ urlpatterns = [
     # 반지름을 인자로 받아서 원의 넓이를 구해주세요!
     path('area/<int:r>/', views.area),
     path('template_language/', views.template_language),
+    path('isbirth/', views.isbirth),
+    path('ispal/<str:word>/', views.ispal),
 ]

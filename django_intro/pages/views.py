@@ -59,3 +59,29 @@ def template_language(request):
         'empty_list': empty_list,
     }
     return render(request, 'pages/template_language.html', context)
+
+'''
+실습 #1.
+오늘이 내 생일이면 '예' 아니면 '아니요'를 화면에 띄워주세요.
+DTL을 이용해주세요!
+'''
+def isbirth(request):
+    today = datetime.today()
+    if today.month == 6 and today.date == 11:
+        result = True
+    else:
+        result = False
+    context = {'result': result}
+    return render(request, 'pages/isbirth.html', context)
+
+'''
+실습 #2.
+url을 통해 들어오는 문자열이 회문인지 아닌지를 판별해주세요!
+'''
+def ispal(request, word):
+    if word == word[::-1]:
+        result = True
+    else:
+        result = False
+    context = {'result': result, 'word': word}
+    return render(request, 'pages/ispal.html', context)
