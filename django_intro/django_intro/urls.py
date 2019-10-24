@@ -20,8 +20,12 @@ from pages import views # 생성한 앱 pages 폴더 안의 views.py 파일
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', views.index), # url 경로 마지막에 /를 붙이는 습관!
-    path('introduce/', views.introduce),
+    path('introduce/<str:name>/<int:age>/', views.introduce),
     path('dinner/', views.dinner),
     path('image/', views.image),
-    path('hello/<str:name>', views.hello),
+    path('hello/<str:name>/', views.hello),
+    path('times/<int:num1>/<int:num2>/', views.times),
+    # 반지름을 인자로 받아서 원의 넓이를 구해주세요!
+    path('area/<int:r>/', views.area),
+    path('template_language/', views.template_language),
 ]
