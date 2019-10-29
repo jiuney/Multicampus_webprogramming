@@ -4,6 +4,5 @@ from .models import Article
 # Register your models here.
 class ArticleAdmin(admin.ModelAdmin):
     list_display = ('pk', 'title', 'content', 'created_at', 'updated_at')
-    list_filter = ('created_at', )
 
 admin.site.register(Article, ArticleAdmin)
