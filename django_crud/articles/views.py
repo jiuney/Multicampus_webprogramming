@@ -31,7 +31,14 @@ def create(request):
 
 def detail(request, pk):
     article = Article.objects.get(pk=pk)
-    context = {'article': article}
+    # article의 모든 댓글 가져오기
+    # (TMI) related_name 설정했을 시, comments로 가져와야합니다.
+
+    comments = article.comments.all()
+    context = {
+        'article': article, 
+        'comments': comments,    
+    }
     return render(request, 'articles/detail.html', context)
 
 def delete(request, pk):
