@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container movie-info d-flex mt-5">
+    <div class="col-3">
+        <img class="img-fluid" src="{{ movie.poster_url }}" alt="movie_poster">
+    </div>
+    <div class="col-9">
+        <h1>{{ movie.title }}</h1>
+        <p>{{ movie.title_en }}</p>
+        <hr>
+        <p>평점: {{ movie.score }}</p>
+        <hr>
+        <div style="list-style: none;">
+            <li>장르: {{ movie.genre }}</li>
+            <li>개봉일: {{ movie.open_date }}</li>
+            <li>관람등급: {{ movie.watch_grade }}</li>
+            <li>관객수: {{ movie.audience }}</li>
+        </div>
+        <hr>
+        <p>{{ movie.description }}</p>
+        <div>
+            <a href="{% url 'movies:index' %}">[목록]</a>
+            <a href="{% url 'movies:edit' movie.pk %}">[수정]</a>
+            <a href="{% url 'movies:delete' movie.pk %}">[삭제]</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

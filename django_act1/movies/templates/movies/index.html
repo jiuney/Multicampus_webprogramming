@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div class="container mt-5">
+    <a href="{% url 'movies:new' %}">+새 영화 등록</a>
+    {% for movie in movies %}
+        <div class="movie-{{movie.pk}}">
+            <p>title: <a href="{% url 'movies:detail' movie.pk %}">{{ movie.title }}</a></p>
+            <p>score: {{ movie.score }}</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
