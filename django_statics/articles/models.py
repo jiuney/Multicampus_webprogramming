@@ -11,4 +11,4 @@ class Article(models.Model):
     content = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    image = models.FileField(blank=True, upload_to='articles/%Y/%m/%d') # ImageField는 pillow 필수
+    image = models.ImageField(blank=True, upload_to='articles/%Y/%m/%d') # ImageField는 pillow 필수
