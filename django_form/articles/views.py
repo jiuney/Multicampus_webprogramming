@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Article
+from .models import Article, Comment
 from .forms import ArticleForm, CommentForm
+from django.views.decorators.http import require_POST
 from IPython import embed
 
 # Create your views here.
@@ -29,24 +30,16 @@ def create(request):
 def detail(request, article_pk):
     # article = Article.objects.get(pk=article_pk)
     article = get_object_or_404(Article, pk=article_pk)
-
-    # 위 코드는 아래와 동일
-    # try:
-    #     article = Article.objects.get(pk=article_pk)
-    # except Article.DoesNotExist:
-    #     # from django.http import Http404
-    #     raise Http404("No article matches the given query.")
-
-    context = {'article': article}
+    comments = Comment.objects.filter(article=article)
+    comment_form = CommentForm()
+    context = {'article': article, 'comment_form': comment_form, 'comments': comments}
     return render(request, 'articles/detail.html', context)
 
+@require_POST
 def delete(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
-    if request.method == "POST":
-        article.delete()
-        return redirect("articles:index")
-    else:
-        return redirect('articles:detail', article_pk)
+    article.delete()
+    return redirect("articles:index")
 
 def update(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
@@ -64,3 +57,18 @@ def update(request, article_pk):
     context = {'form': form}
     return render(request, 'articles/create.html', context)
 
+@require_POST
+def comments_create(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+        comment = comment_form.save(commit=False)
+        comment.article = article
+        comment.save()
+    return redirect("articles:detail", article_pk)
+
+@require_POST
+def comments_delete(request, article_pk, comment_pk):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    comment.delete()
+    return redirect("articles:detail", article_pk)
