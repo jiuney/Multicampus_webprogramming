@@ -2,14 +2,18 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Article, Comment
 from .forms import ArticleForm, CommentForm
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 from IPython import embed
 
 # Create your views here.
 def index(request):
+    embed()
     articles = Article.objects.all()
     context = {'articles': articles}
     return render(request, 'articles/index.html', context)
 
+# 이런 식으로도 사용 가능하다! @login_required(login_url="/accounts/test/")
+@login_required
 def create(request):
     if request.method == "POST":
         # 폼 인스턴스를 생성하고 요청에 의한 데이터로 채운다. (binding)
@@ -35,12 +39,14 @@ def detail(request, article_pk):
     context = {'article': article, 'comment_form': comment_form, 'comments': comments}
     return render(request, 'articles/detail.html', context)
 
+@login_required
 @require_POST
 def delete(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     article.delete()
     return redirect("articles:index")
 
+@login_required
 def update(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     if request.method == "POST":

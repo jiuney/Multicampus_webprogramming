@@ -13,7 +13,7 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
-class Pomment(models.Model):
+class Comment(models.Model):
     content = models.CharField(max_length=140)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
