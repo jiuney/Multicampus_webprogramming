@@ -5,11 +5,14 @@ from .forms import ArticleForm, CommentForm
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from IPython import embed
+import hashlib
 
 # Create your views here.
 def index(request):
     articles = Article.objects.all()
-    context = {'articles': articles}
+    context = {
+        'articles': articles,
+    }
     return render(request, 'articles/index.html', context)
 
 
@@ -73,6 +76,7 @@ def comments_create(request, article_pk):
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
+            comment.user = request.user # 댓글 작성한 사용자 저장
             comment.article = article
             comment.save()
         return redirect("articles:detail", article_pk)
@@ -82,8 +86,20 @@ def comments_create(request, article_pk):
 def comments_delete(request, article_pk, comment_pk):
     if request.user.is_authenticated:
         comment = get_object_or_404(Comment, pk=comment_pk)
-        comment.delete()
-        return redirect("articles:detail", article_pk)
-    return HttpResponse('You are Unauthorized', status=401)
+        if request.user == comment.user:
+            comment.delete()
+    return redirect("articles:detail", article_pk)
 
 
+def like(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    user = request.user # 요청을 보낸 유저
+    
+    # 해당 게시글에 좋아요를 누른 사람들 중에
+    # user.pk를 가진 유저가 존재하면,
+    if article.like_users.filter(pk=user.pk).exists():
+        # user를 삭제하고 (좋아요를 취소)
+        article.like_users.remove(user)
+    else:
+        article.like_users.add(user)
+    return redirect("articles:index")
