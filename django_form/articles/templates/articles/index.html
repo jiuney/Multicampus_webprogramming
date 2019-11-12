@@ -9,18 +9,6 @@
     {% endif %}
     
     {% for article in articles %}
-        <p><strong>작성자: {{ article.user }}</strong></p>
-        <P>{{ article.pk }}</P>
-        <P>{{ article.title }}</P>
-        <a href="{% url 'articles:like' article.pk %}">
-            {% if user in article.like_users.all %}
-                <i class="fas fa-heart" style="color: red"></i>
-            {% else %}
-                <i class="far fa-heart" style="color: cadetblue"></i>
-            {% endif %}
-        </a>
-        {{ article.like_users.all|length }}명이 이 글을 좋아합니다.<br>
-        <a href="{% url 'articles:detail' article.pk %}">[DETAIL]</a>
-        <hr>
+        {% include 'articles/_article.html' %}
     {% endfor %}
 {% endblock %}
