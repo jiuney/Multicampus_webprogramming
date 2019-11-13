@@ -31,8 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'articles',
     'accounts',
+    'articles',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -126,3 +126,5 @@ STATIC_URL = '/static/'
 # 로그인 하지 않은 사용자의 경우 LOGIN_URL에 설정된
 # 문자열 기반 절대 경로로 리다이렉트 된다.
 # LOGIN_URL = '/custom_appname/login/'
+
+AUTH_USER_MODEL = 'accounts.User' # auth.User

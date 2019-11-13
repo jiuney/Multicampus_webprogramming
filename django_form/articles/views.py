@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
-from .models import Article, Comment
+from .models import Article, Comment, Hashtag
 from .forms import ArticleForm, CommentForm
 from django.views.decorators.http import require_POST
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from IPython import embed
 import hashlib
@@ -27,6 +28,11 @@ def create(request):
             article = form.save(commit=False)
             article.user = request.user
             article.save()
+            # hashtag
+            for word in article.content.split():
+                if word.startswith("#"):
+                    hashtag, created = Hashtag.objects.get_or_create(content=word)
+                    article.hashtags.add(hashtag)
             return redirect("articles:detail", article.pk)
     else:
         form = ArticleForm()
@@ -38,8 +44,14 @@ def detail(request, article_pk):
     # article = Article.objects.get(pk=article_pk)
     article = get_object_or_404(Article, pk=article_pk)
     comments = Comment.objects.filter(article=article)
+    person = get_object_or_404(get_user_model(), pk=article.user_id)
     comment_form = CommentForm()
-    context = {'article': article, 'comment_form': comment_form, 'comments': comments}
+    context = {
+        'article': article, 
+        'comment_form': comment_form, 
+        'comments': comments,
+        'person': person,
+    }
     return render(request, 'articles/detail.html', context)
 
 
@@ -105,3 +117,16 @@ def like(request, article_pk):
             article.like_users.add(user)
         return redirect("articles:index")
     return redirect("accounts:login")
+
+@login_required
+def follow(request, article_pk, user_pk):
+    # 게시글 유저
+    you = get_object_or_404(get_user_model(), pk=user_pk)
+    # 현재 접속 유저
+    me = request.user
+    if you != me:
+        if you.followers.filter(pk=me.pk).exists():
+            you.followers.remove(me)
+        else:
+            you.followers.add(me)
+    return redirect("articles:detail", article_pk)

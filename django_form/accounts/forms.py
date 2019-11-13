@@ -9,4 +9,5 @@ class CustomUserChangeForm(UserChangeForm):
 class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         # username, password1, password2, email
+        model = get_user_model() # accounts.User 참조
         fields = UserCreationForm.Meta.fields + ('email', )
