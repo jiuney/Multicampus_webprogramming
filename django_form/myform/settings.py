@@ -40,9 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap4',
-
-    # 소셜로그인
     'django_extensions',
+    
+    # 소셜로그인
     'django.contrib.sites',
     'allauth',
     'allauth.account',
@@ -145,3 +145,6 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'accounts.User' # auth.User
 
 SITE_ID = 1
+
+# /accounts/profile/
+LOGIN_REDIRECT_URL = 'articles:index'

@@ -37,7 +37,7 @@ style="background: rgba(102, 160, 145, 1) !important;">
     </div>
 
     {% else %}
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="{% url 'articles:index' %}">
         <img src="https://s.https://www.gravatar.com/avatar/{{ user.email|makemd5 }}?d=wavatar" alt="">
         Hello, Stranger.
     </a>
