@@ -72,7 +72,13 @@ def update(request, article_pk):
         if request.method == "POST":
             form = ArticleForm(request.POST, instance=article)
             if form.is_valid():
-                form.save()
+                article = form.save()
+                # hashtag
+                article.hashtags.clear()
+                for word in article.content.split():
+                    if word.startswith("#"):
+                        hashtag, created = Hashtag.objects.get_or_create(content=word)
+                        article.hashtags.add(hashtag)
                 return redirect("articles:detail", article_pk)
         else:
             form = ArticleForm(instance=article)
@@ -130,3 +136,10 @@ def follow(request, article_pk, user_pk):
         else:
             you.followers.add(me)
     return redirect("articles:detail", article_pk)
+
+
+def hashtag(request, hash_pk):
+    hashtag = get_object_or_404(Hashtag, pk=hash_pk)
+    articles = hashtag.article_set.order_by("-pk")
+    context = {'hashtag': hashtag, 'articles': articles}
+    return render(request, 'articles/hashtag.html', context)
