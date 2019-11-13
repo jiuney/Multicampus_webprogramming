@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
@@ -75,3 +76,12 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     context = {'form': form}
     return render(request, 'accounts/auth_form.html', context)
+
+
+def profile(request, username):
+    # User 모델을 가져올 수 있는 2가지 방법
+    # 1. get_user_model() - 객체 반환 (models.py 제외 전부)
+    # 2. settings.AUTH_USER_MODEL - 스트링 반환 (models.py)
+    person = get_object_or_404(get_user_model(), username=username)
+    context = {'person': person}
+    return render(request, 'accounts/profile.html', context)

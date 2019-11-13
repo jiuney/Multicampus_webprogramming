@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Article
+from django.db.models import Count
 
 # Create your views here.
 def index(request):
@@ -18,8 +19,9 @@ def create(request):
         title = request.POST.get("title")
         content = request.POST.get("content")
         image = request.FILES.get("image")
+        print(image)
         article = Article(
-            title=title, 
+            title=title,    
             content=content,
             image=image
             )

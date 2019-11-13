@@ -97,9 +97,11 @@ def like(request, article_pk):
     
     # 해당 게시글에 좋아요를 누른 사람들 중에
     # user.pk를 가진 유저가 존재하면,
-    if article.like_users.filter(pk=user.pk).exists():
-        # user를 삭제하고 (좋아요를 취소)
-        article.like_users.remove(user)
-    else:
-        article.like_users.add(user)
-    return redirect("articles:index")
+    if request.user.is_authenticated:
+        if article.like_users.filter(pk=user.pk).exists():
+            # user를 삭제하고 (좋아요를 취소)
+            article.like_users.remove(user)
+        else:
+            article.like_users.add(user)
+        return redirect("articles:index")
+    return redirect("accounts:login")
