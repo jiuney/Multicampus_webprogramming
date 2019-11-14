@@ -13,4 +13,5 @@ urlpatterns = [
     path('<int:article_pk>/like/', views.like, name="like"),
     path('<int:article_pk>/follow/<int:user_pk>/', views.follow, name="follow"),
     path('<int:hash_pk>/hashtag/', views.hashtag, name="hashtag"),
+    path('search/', views.search, name="search"),
 ]

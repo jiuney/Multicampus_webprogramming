@@ -1,13 +1,18 @@
 {% load gravatar %}
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top"
-style="background: rgba(102, 160, 145, 1) !important;">
+    style="background: rgba(102, 160, 145, 1) !important;">
     {% if user.is_authenticated %}
     <a class="navbar-brand" href="{% url 'articles:index' %}">
         <img src="https://s.gravatar.com/avatar/{{ user.email|makemd5 }}?d=wavatar&s=30"
             class="d-inline-block align-top" alt="">
         Hello, {{ user.username }}
     </a>
+    <form action="{% url 'articles:search' %}" class="d-flex mr-2">
+        <input class="form-control mr-1" type="text" name="query">
+        <input class="btn d-inline-block" type="submit" value="search">
+    </form>
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

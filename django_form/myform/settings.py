@@ -48,6 +48,9 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.kakao',
+
+    # paginator
+    'bootstrap_pagination',
 ]
 
 AUTHENTICATION_BACKENDS = (
