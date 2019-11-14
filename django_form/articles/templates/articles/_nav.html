@@ -9,8 +9,8 @@
         Hello, {{ user.username }}
     </a>
     <form action="{% url 'articles:search' %}" class="d-flex mr-2">
-        <input class="form-control mr-1" type="text" name="query">
-        <input class="btn d-inline-block" type="submit" value="search">
+        <input class="form-control mr-1" type="text" name="query" placeholder="제목 및 내용을 입력해주세요.">
+        <input class="btn d-inline-block search-btn" type="submit" value="search">
     </form>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

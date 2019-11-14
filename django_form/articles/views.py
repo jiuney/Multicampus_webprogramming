@@ -153,11 +153,15 @@ def hashtag(request, hash_pk):
 
 
 def search(request):
+    # 사용자 검색어 추출
     query = request.GET.get("query")
+    # 제목 또는 내용에서 검색어를 포함하는 게시글 가져오기
+    # from django.db.models import Q
     articles = Article.objects.filter(
         Q(title__icontains=query) | Q(content__icontains=query)
     )
-
+    
+    # 페이지네이션 코드
     paginator = Paginator(articles, 3)
     page = request.GET.get("page")
     articles = paginator.get_page(page)
