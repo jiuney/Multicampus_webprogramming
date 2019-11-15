@@ -2,6 +2,13 @@
 {% load make_link %}
 
 {% block body %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
     <h1>DETAIL</h1>
     <hr>
     <p>글 번호: {{ article.pk }}</p>

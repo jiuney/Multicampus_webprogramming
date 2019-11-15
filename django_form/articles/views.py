@@ -4,6 +4,7 @@ from .models import Article, Comment, Hashtag
 from .forms import ArticleForm, CommentForm
 from django.views.decorators.http import require_POST
 from django.db.models import Q
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -34,6 +35,7 @@ def create(request):
             article = form.save(commit=False)
             article.user = request.user
             article.save()
+            messages.success(request, '게시글이 성공적으로 작성되었습니다!')
             # hashtag
             for word in article.content.split():
                 if word.startswith("#"):
