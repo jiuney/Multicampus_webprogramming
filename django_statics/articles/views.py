@@ -19,7 +19,6 @@ def create(request):
         title = request.POST.get("title")
         content = request.POST.get("content")
         image = request.FILES.get("image")
-        print(image)
         article = Article(
             title=title,    
             content=content,
