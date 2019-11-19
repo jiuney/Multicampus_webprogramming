@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import Article, Comment, Hashtag
 from .forms import ArticleForm, CommentForm
 from django.views.decorators.http import require_POST
@@ -127,9 +127,12 @@ def like(request, article_pk):
         if article.like_users.filter(pk=user.pk).exists():
             # user를 삭제하고 (좋아요를 취소)
             article.like_users.remove(user)
+            liked = False
         else:
             article.like_users.add(user)
-        return redirect("articles:index")
+            liked = True
+        context = {'liked': liked,}
+        return JsonResponse(context)
     return redirect("accounts:login")
 
 

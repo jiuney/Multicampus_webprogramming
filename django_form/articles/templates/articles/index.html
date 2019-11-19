@@ -15,4 +15,29 @@
     <div class="d-flex justify-content-center">
         {% bootstrap_paginate articles %}
     </div>
+
+    <script>
+        // 1. 각 게시글 별로 좋아요 버튼이 있으니 All로 다 가져와보자
+        const likeButtons = document.querySelectorAll('.like-button')
+        
+        likeButtons.forEach(button => {
+            button.addEventListener('click', function(e){
+                const articleId = e.target.dataset.id
+                axios.defaults.xsrfCookieName = 'csrftoken'
+                axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+                axios.post(`/articles/${articleId}/like/`)
+                    .then(res => {
+                        if (res.data.liked) {
+                            e.target.style.color = 'crimson'
+                        } else {
+                            e.target.style.color = 'black'
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            })
+        })
+
+    </script>
 {% endblock %}
