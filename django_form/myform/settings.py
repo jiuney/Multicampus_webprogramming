@@ -51,6 +51,9 @@ INSTALLED_APPS = [
 
     # paginator
     'bootstrap_pagination',
+
+    # debug_toolbar
+    'debug_toolbar',
 ]
 
 AUTHENTICATION_BACKENDS = (
@@ -69,6 +72,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware'
 ]
 
 ROOT_URLCONF = 'myform.urls'
@@ -151,3 +155,7 @@ SITE_ID = 1
 
 # /accounts/profile/
 LOGIN_REDIRECT_URL = 'articles:index'
+
+INTERNAL_IPS = [
+    '127.0.0.1',
+]
